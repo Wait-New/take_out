@@ -5,6 +5,11 @@ import {
   FormItem,
   Icon,
   Table,
+  Input,
+  Radio,
+  RadioGroup,
+  Image,
+  Avatar,
   Message,
   MessageBox,
   Loading,
@@ -12,10 +17,15 @@ import {
 } from 'element-ui'
 
 Vue.use(Button)
+Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Image)
+Vue.use(Avatar)
 Vue.use(Icon)
 Vue.use(Table)
+Vue.use(Radio)
+Vue.use(RadioGroup)
 
 // 挂载到原型上
 Vue.prototype.$loading = Loading.service

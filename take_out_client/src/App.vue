@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <el-button type="primary">开发</el-button>
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'app',
   components: {
