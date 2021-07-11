@@ -1,5 +1,15 @@
 import Vue from 'vue'
 import {
+  Container,
+  CheckboxGroup,
+  Checkbox,
+  Main,
+  Aside,
+  Header,
+  Menu,
+  MenuItemGroup,
+  MenuItem,
+  Submenu,
   Button,
   Form,
   FormItem,
@@ -10,20 +20,61 @@ import {
   RadioGroup,
   Image,
   Avatar,
+  Row,
+  Col,
+  Tooltip,
+  Card,
+  Breadcrumb,
+  BreadcrumbItem,
+  Skeleton,
+  SkeletonItem,
+  TableColumn,
+  Pagination,
+  DropdownMenu,
+  DropdownItem,
+  Dropdown,
+  Dialog,
+  DatePicker,
+  Cascader,
   Message,
   MessageBox,
   Loading,
   Notification
 } from 'element-ui'
-
+Vue.use(Container)
+Vue.use(Dialog)
+Vue.use(Header)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
+Vue.use(Main)
+Vue.use(Aside)
+Vue.use(DatePicker)
+Vue.use(Menu)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(MenuItem)
+Vue.use(Skeleton)
+Vue.use(SkeletonItem)
+Vue.use(MenuItemGroup)
+Vue.use(BreadcrumbItem)
+Vue.use(Breadcrumb)
+Vue.use(Cascader)
+Vue.use(Col)
+Vue.use(Dropdown)
+Vue.use(DropdownItem)
+Vue.use(DropdownMenu)
+Vue.use(Pagination)
+Vue.use(Card)
+Vue.use(Row)
+Vue.use(Submenu)
 Vue.use(Button)
 Vue.use(Input)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Tooltip)
 Vue.use(Image)
 Vue.use(Avatar)
 Vue.use(Icon)
-Vue.use(Table)
 Vue.use(Radio)
 Vue.use(RadioGroup)
 

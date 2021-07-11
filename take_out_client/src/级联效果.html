@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <select id="saiqu"></select>
+    <select id="city"></select>
+</div>
+</body>
+<script>
+    let list = [
+        {
+            name: "中国",
+            id: 1,
+            pid: 0
+        },
+        {
+            name: "韩国",
+            id: 2,
+            pid: 0
+        }, {
+            name: "北美",
+            id: 3,
+            pid: 0
+        }, {
+            name: "南京",
+            id: 4,
+            pid: 1
+        }, {
+            name: "北京",
+            id: 5,
+            pid: 1
+        }, {
+            name: "首尔",
+            id: 6,
+            pid: 2
+        }, {
+            name: "釜山",
+            id: 7,
+            pid: 2
+        }, {
+            name: "纽约",
+            id: 8,
+            pid: 3
+        }, {
+            name: "德州",
+            id: 9,
+            pid: 3
+        }
+    ]
+    function initSaiqu() {
+        let $html = '';
+        for (let i = 0; i < list.length; i++) {
+            if(list[i].pid===0){
+                $html+=`<option value="${list[i].id}">${list[i].name}</option>`
+            }
+        }
+        $('#saiqu').empty().append($html)
+        $('#city').empty().append().append(`<option selected>[请选择]</option>`)
+
+    }
+    $(function () {
+        initSaiqu()
+        $('#saiqu').change(function () {
+            let cityList=list.filter(item => item.pid==$(this).val())
+            let $cityHtml=`<option selected>[请选择]</option>`
+            for (let city of cityList) {
+                $cityHtml+=`<option value="${city.id}">${city.name}</option>`
+            }
+            $("#city").empty().append($cityHtml)
+            $("#city option").css('color','red')
+        })
+    })
+</script>
+</html>

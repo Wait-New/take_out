@@ -1,6 +1,6 @@
 <template>
   <div class="login-group">
-    <el-form  :model="loginInfo" :rules="rules" ref="loginRef" label-width="80px" class="login-info">
+    <el-form  :model="loginInfo" :rules="rules" @keydown.enter.native="login" ref="loginRef" label-width="80px" class="login-info">
       <el-avatar fit="fit"></el-avatar>
       <h2>极速外卖后台管理</h2>
       <el-form-item prop="username">
@@ -29,6 +29,9 @@
 <script>
 export default {
   name: 'Login',
+  created () {
+    this.$cookies.remove('token')
+  },
   data () {
     return {
       loginInfo: {
