@@ -17,6 +17,9 @@
           <el-button type="primary" icon="el-icon-search" @click="getInfo">查询</el-button>
           <el-button icon="el-icon-refresh" @click="reset">重置</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button type="success" @click="openWin()">添加</el-button>
+        </el-form-item>
       </el-form>
       <el-table :data="shopList" border highlight-current-row >
         <el-table-column type="expand">
@@ -147,7 +150,7 @@ export default {
       if (info) {
         this.$router.push('shopEdit?id=' + info.id) // 跳转页面
       } else {
-        alert('编辑失败')
+        this.$router.push('shopEdit') // 跳转页面
       }
     },
     addFood (isShop) {
