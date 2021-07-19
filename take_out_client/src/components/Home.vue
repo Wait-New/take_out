@@ -8,9 +8,9 @@
                  active-text-color="#ffd04b"
                  menu-trigger="click"
                  router
-                 default-active="about"
+                 :default-active=$store.state.defaultAction
                  >
-          <el-menu-item index="about">
+          <el-menu-item index="user">
               <i class="el-icon-s-home"></i>
               <span>首页</span>
           </el-menu-item>
@@ -28,11 +28,11 @@
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>系统管理</span>
+              <span>商家管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="">添加商户</el-menu-item>
-              <el-menu-item index="">商户列表</el-menu-item>
+              <el-menu-item index="shopedit">添加商户</el-menu-item>
+              <el-menu-item index="shop">商户列表</el-menu-item>
               <el-menu-item index="">商品列表</el-menu-item>
               <el-menu-item index="">订单管理</el-menu-item>
             </el-menu-item-group>
@@ -42,12 +42,20 @@
       <el-container>
         <el-header style="height: 50px">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="1">
               <el-tooltip class="item" effect="dark" :content="hint" placement="top-start">
                 <i :class="isShowFold" @click="fold"></i>
               </el-tooltip>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="6">
+              <el-breadcrumb separator="/" v-if="breadcrumbList.length">
+                <el-breadcrumb-item v-for="(item,index) in breadcrumbList" :key="index">
+                  <a v-if="item.path" :href="'#'+item.path">{{item.title}}</a>
+                  <template v-else>{{item.title}}</template>
+                </el-breadcrumb-item>
+              </el-breadcrumb>
+            </el-col>
+            <el-col :span="2" :offset="15">
               <el-dropdown trigger="click">
               <el-avatar shape="square" :size="40" :src="require('@/assets/avator.gif')"></el-avatar>
               <el-dropdown-menu slot="dropdown">
@@ -73,7 +81,8 @@ export default {
   data () {
     return {
       searchInfo: {},
-      isCollapse: false
+      isCollapse: false,
+      breadcrumbList: [{ title: '首页', path: '/' }]
     }
   },
   created () {
@@ -86,6 +95,16 @@ export default {
       this.$confirm('确认退出系统吗?', { type: 'info' }).then(() => {
         this.$router.replace('login')
       })
+    },
+    getBreadcrumbList () {
+      /* 初始化数组 */
+      this.breadcrumbList.length = 1
+      if (this.$route.meta.parentTitle) {
+        this.breadcrumbList.push(
+          { title: this.$route.meta.parentTitle, path: '' },
+          { title: this.$route.meta.title, path: this.$route.path.substr(1) })
+      }
+      console.log(this.breadcrumbList)
     }
   },
   computed: {
@@ -98,16 +117,21 @@ export default {
     hint () {
       return this.isCollapse ? '菜单显示' : '菜单隐藏'
     }
+  },
+  watch: {
+    $route () {
+      this.getBreadcrumbList()
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .el-container {
+  height: 100vh;
   display: flex;
   flex-direction:row;
   .el-aside {
-    height: 100vh;
     background-color: #545c64;
     ul {
       border: 0;

@@ -11,7 +11,6 @@ import './utils/cookies'
 import './utils/http'
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

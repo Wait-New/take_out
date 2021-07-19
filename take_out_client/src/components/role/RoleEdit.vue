@@ -1,32 +1,19 @@
 <template>
   <el-dialog :title="title" :visible.sync='visible' :before-close="handleClose">
     <el-form :model="shopInfo" label-position="right" label-width="80px">
-      <el-form-item label="用户名">
-        <el-input v-model="shopInfo.account" placeholder="请输入用户名"></el-input>
+      <el-form-item label="角色名">
+        <el-input v-model="shopInfo.name" placeholder="请输入角色名"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="shopInfo.password" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item label="姓名">
-        <el-input v-model="shopInfo.name" placeholder="请输入名字"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model="shopInfo.email" placeholder="请输入邮箱"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="shopInfo.phone" placeholder="请输入手机号"></el-input>
-      </el-form-item>
-      <el-form-item label="性别">
-        <el-radio-group v-model="shopInfo.sex">
-          <el-radio :label="2">女</el-radio>
-          <el-radio :label="1">男</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="生日">
-        <el-date-picker v-model="shopInfo.birthday" value-format="yyyy-MM-dd" format="yyyy-MM-dd" placeholder="选择日期" :picker-options="pickerOptions"></el-date-picker>
+      <el-form-item label="授权码">
+        <el-input v-model="shopInfo.tips" placeholder="请输入授权码"></el-input>
       </el-form-item>
       <el-form-item label="部门选择">
         <el-cascader :options="deptList" :show-all-levels="false" :props="{label:'fullname',value:'id',emitPath:false}" v-model="shopInfo.deptid"></el-cascader>
+      </el-form-item>
+      <el-form-item label="上级角色">
+        <el-select filterable v-model="shopInfo.pid">
+          <el-option v-for="item in shopList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -38,29 +25,21 @@
 
 <script>
 const initInfo = {
-  account: '',
   name: '',
-  password: '',
-  birthday: '',
-  sex: 1,
-  email: '',
-  phone: '',
+  tips: '',
   deptid: '',
-  status: 1
+  pid: '',
+  id: ''
 }
 export default {
-  name: 'UserEdit',
+  name: 'RoleEdit',
   data () {
     return {
-      title: '添加用户',
+      title: '添加角色',
       visible: false,
       shopInfo: {},
-      pickerOptions: {
-        disabledDate (time) {
-          return time.getTime() > Date.now()
-        }
-      },
       deptList: [],
+      shopList: [],
       loading: {}
     }
   },
@@ -71,16 +50,38 @@ export default {
       this.$http.get('dept/list').then(({ data }) => {
         if (data.code === 20000) {
           this.deptList = this.formatterDate(data.data)
-          this.loading.close()
+          this.$http.get('/role/list').then(({ data }) => {
+            if (data.code === 20000) {
+              this.loading.close()
+              this.shopList = data.data
+              if (info) {
+                this.title = '修改角色'
+                const updateInfo = {
+                  id: info.id,
+                  name: info.name,
+                  deptid: info.deptid,
+                  pid: info.pid,
+                  tips: info.tips
+                }
+                this.shopInfo = updateInfo
+              } else {
+                this.title = '添加角色'
+                this.shopInfo = initInfo
+              }
+            }
+          })
         }
       })
-      if (info) {
-        this.title = '修改用户'
-        this.shopInfo = info
-      } else {
-        this.title = '添加用户'
-        this.shopInfo = initInfo
-      }
+      this.$axios.all([this.getDeptList(), this.getRoleList()]).then(this.$ajax.spread((deptRes, roleRes) => {
+        console.log(deptRes)
+        console.log(roleRes)
+      }))
+    },
+    getDeptList () {
+      return this.$axios.get('dept/list')
+    },
+    getRoleList () {
+      return this.$axios.get('role/list')
     },
     formatterDate (arr) {
       for (let i = 0; i < arr.length; i++) {
@@ -98,8 +99,8 @@ export default {
       }).catch(_ => {})
     },
     save () {
-      this.$http.post('user', this.shopInfo).then(({ data }) => {
-        if (data.code === 20000) {
+      this.$http.post('/role', this.shopInfo).then((res) => {
+        if (res.data && res.data.code === 20000) {
           this.$message({
             message: this.shopInfo.id ? '修改成功' : '保存成功',
             type: 'success',

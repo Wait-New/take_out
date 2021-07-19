@@ -23,10 +23,12 @@ import {
   Row,
   Col,
   Tooltip,
+  Tag,
   Card,
   Breadcrumb,
   BreadcrumbItem,
   Skeleton,
+  Select,
   SkeletonItem,
   TableColumn,
   Pagination,
@@ -36,6 +38,12 @@ import {
   Dialog,
   DatePicker,
   Cascader,
+  Option,
+  Autocomplete,
+  TimeSelect,
+  InputNumber,
+  Upload,
+  Switch,
   Message,
   MessageBox,
   Loading,
@@ -44,9 +52,17 @@ import {
 Vue.use(Container)
 Vue.use(Dialog)
 Vue.use(Header)
+Vue.use(Switch)
 Vue.use(Checkbox)
+Vue.use(Tag)
+Vue.use(Upload)
+Vue.use(Option)
+Vue.use(Select)
 Vue.use(CheckboxGroup)
+Vue.use(InputNumber)
+Vue.use(TimeSelect)
 Vue.use(Main)
+Vue.use(Autocomplete)
 Vue.use(Aside)
 Vue.use(DatePicker)
 Vue.use(Menu)

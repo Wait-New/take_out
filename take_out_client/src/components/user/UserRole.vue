@@ -3,7 +3,7 @@
       <el-form :model="role">
         <el-form-item>
           <el-checkbox-group v-model="role.roleIds">
-            <el-checkbox v-for="item in roleList" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
+            <el-checkbox v-for="item in shopList" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       visible: false,
-      roleList: [],
+      shopList: [],
       role: {
         userId: '',
         roleIds: []
@@ -29,14 +29,14 @@ export default {
     }
   },
   methods: {
-    init (userInfo) {
+    init (shopInfo) {
       this.visible = true
-      this.role.userId = userInfo.id
-      this.role.roleIds = userInfo.roleid.split(',')
+      this.role.userId = shopInfo.id
+      this.role.roleIds = shopInfo.roleid.split(',')
       this.roleLoading = this.$loading({ text: '加载中...' })
       this.$http.get('/role/list').then(({ data }) => {
         if (data.code === 20000) {
-          this.roleList = data.data
+          this.shopList = data.data
         }
       }).finally(() => {
         this.roleLoading.close()
