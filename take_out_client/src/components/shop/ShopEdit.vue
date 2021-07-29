@@ -136,7 +136,7 @@ export default {
         cateringPrevList: [],
         showCatering: false
       },
-      uploadPath: 'http://192.168.26.105:8082/file',
+      uploadPath: process.env.VUE_APP_BASE_API + '/file',
       uploadHeader: {
         Authorization: ''
       },

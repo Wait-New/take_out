@@ -1,0 +1,58 @@
+/*==== reset css =====*/
+/*所有的标签，和伪元素都选中*/
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-size: 14px;
+    font-family: "Microsoft YaHei UI",sans-serif;
+    color: #333;
+}
+ul,ol {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    color: #333;
+}
+input, textarea {
+    border: none;
+    outline: none;
+    /*允许输入框的放大缩小*/
+    resize: none;
+    /*元素的外观，none表示没有任何样式*/
+    appearance: none;
+    -webkit-appearance: none;
+
+}
+/*==== common css ====*/
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+li {
+    float: left;
+}
+/*清除浮动*/
+.clearFix::before,
+.clearFix::after {
+    content: "";
+    display: block;  /*占位*/
+    visibility: hidden;  /*隐藏保留位置*/
+    height: 0;  /*不允许占用其他人的位置*/
+    line-height: 0;
+    clear: both;
+}
+.van-card:not(:first-child) {
+    margin-top: 0px;
+}

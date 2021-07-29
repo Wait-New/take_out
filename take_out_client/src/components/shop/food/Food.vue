@@ -73,6 +73,12 @@
         <el-table-column label="食品描述" prop="description"></el-table-column>
         <el-table-column label="食品状态" prop="stateStr"></el-table-column>
         <el-table-column label="食品销售" prop="tips"></el-table-column>
+        <el-table-column label="是否启用" prop="state">
+          <template slot-scope="scope">
+            <el-button type="success" size="mini" @click="changeState(scope.row)" v-if="scope.row.state === '1'">启用</el-button>
+            <el-button type="danger" size="mini" @click="changeState(scope.row)" v-else>禁用</el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
           <el-button type="success" icon="el-icon-edit" size="mini" @click="openWin(scope.row)">编辑</el-button>
@@ -112,6 +118,16 @@ export default {
     }
   },
   methods: {
+    changeState (food) {
+      this.$confirm(`确定${food.state === '1' ? '禁用' : '启用'}该食物吗？`).then(() => {
+        this.$http.post('/shopping/auditFood', { item_id: food.item_id, state: (food.state === '1' ? -1 : 1) }).then(({ data }) => {
+          if (data.code === 20000) {
+            this.$message.success('操作成功')
+            this.getList()
+          }
+        })
+      })
+    },
     handleSizeChange (val) {
       this.searchInfo.limit = val
       this.getList()
@@ -129,7 +145,6 @@ export default {
         if (data.code === 20000) {
           this.foodList = data.data.records
           this.pageInfo = data.data
-          console.log(this.pageInfo)
           this.total = data.data.total
         }
       })

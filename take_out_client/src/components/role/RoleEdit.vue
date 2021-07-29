@@ -73,8 +73,6 @@ export default {
         }
       })
       this.$axios.all([this.getDeptList(), this.getRoleList()]).then(this.$ajax.spread((deptRes, roleRes) => {
-        console.log(deptRes)
-        console.log(roleRes)
       }))
     },
     getDeptList () {

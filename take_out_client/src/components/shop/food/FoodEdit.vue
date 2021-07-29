@@ -34,7 +34,7 @@
       </el-form-item>
       <el-form-item label="食品图片">
         <el-upload class="avatar-uploader" :action="uploadPath" :limit="1" :headers="uploadHeader" :show-file-list="false" :on-success="uploadSuccess" :before-upload="beforeUpload">
-          <el-image v-if="image.showImage" :src="image" style="width: 100px;height: 100px" :preview-src-list="image.preList" class="avatar"></el-image>
+          <el-image v-if="image.showImage" :src="image.url" style="width: 100px;height: 100px" :preview-src-list="image.preList" class="avatar"></el-image>
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -155,14 +155,14 @@ export default {
         })
         this.food.id = showFood.item_id
         this.image.showImage = true
-        this.image.src = process.env.VUE_APP_BASE_API + '/file/getImgStream?fileName=' + this.food.image_path
+        this.image.url = process.env.VUE_APP_BASE_API + '/file/getImgStream?fileName=' + this.food.image_path
+        console.log(this.image.src)
         this.image.prevList = [this.image.src]
       }
     },
     /* 获取食品分类列表 */
     getCategoryList () {
       this.$http.get('/shopping/getcategory/' + this.food.idShop).then(({ data }) => {
-        console.log(data)
         if (data.code === 20000) {
           this.categoryList = data.category_list
         }
@@ -175,7 +175,6 @@ export default {
         description: this.food.category.description,
         restaurant_id: this.food.idShop
       }).then(({ data }) => {
-        console.log(data)
         if (data.code === 20000) {
           this.$message({
             type: 'success',

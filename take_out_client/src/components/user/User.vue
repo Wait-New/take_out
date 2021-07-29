@@ -115,7 +115,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).catch(err => err)
-      console.log(confirmResult)
       if (confirmResult === 'confirm') {
         this.$axios.delete('user', { params: { userId } }).then(({ data }) => {
           if (data.code === 20000) {

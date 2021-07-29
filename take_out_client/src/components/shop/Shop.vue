@@ -69,21 +69,29 @@
         </el-table-column>
         <el-table-column label="编号" prop="id" width="60"></el-table-column>
         <el-table-column label="商店名称" prop="name" width="100"></el-table-column>
-        <el-table-column label="商店简称" prop="description"></el-table-column>
+        <el-table-column label="商店简称" prop="description" width="100"></el-table-column>
         <el-table-column label="商店地址" prop="address"></el-table-column>
         <el-table-column label="商店联系" prop="phone" width="120"></el-table-column>
         <el-table-column label="商店口号" prop="promotion_info" width="100"></el-table-column>
         <el-table-column label="商店分类" prop="category"></el-table-column>
+        <el-table-column label="是否启用" prop="disabled" width="100">
+          <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" content="店铺状态" placement="bottom">
+              <el-button size="mini" type="success" v-if="scope.row.disabled === 0" @click="updateDisabled(scope.row)">启用</el-button>
+              <el-button size="mini" type="danger" v-else @click="updateDisabled(scope.row)">禁用</el-button>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="商店食物">
           <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-edit" size="small" @click="addFood(scope.row.id)">添加食物</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small" @click="showFoodInfo(scope.row.id)">查看食物</el-button>
+            <el-button type="success" icon="el-icon-edit" size="mini" @click="addFood(scope.row.id)">添加食物</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="showFoodInfo(scope.row.id)">查看食物</el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-edit" size="small" @click="openWin(scope.row)">编辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteInfo(scope.row.id)">删除</el-button>
+            <el-button type="success" icon="el-icon-edit" size="mini" @click="openWin(scope.row)">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteInfo(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -129,6 +137,24 @@ export default {
     })
   },
   methods: {
+    updateDisabled (shop) {
+      const disabled = shop.disabled === 0 ? 1 : 0
+      const id = shop.id
+      const msg = shop.disabled === 0 ? '确定禁用商铺吗？' : '确定启用商铺吗？'
+      this.$confirm(msg).then(() => {
+        this.$http.post('/shopping/stopShop', { id, disabled }).then(({ data }) => {
+          if (data.code === 20000) {
+            this.$message({
+              message: '更新状态成功',
+              type: 'success',
+              onClose: () => {
+                this.getInfo()
+              }
+            })
+          }
+        })
+      })
+    },
     handleSizeChange (val) {
       this.searchInfo.limit = val
       this.getInfo()

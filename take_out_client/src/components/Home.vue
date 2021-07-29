@@ -33,7 +33,7 @@
             <el-menu-item-group>
               <el-menu-item index="shopedit">添加商户</el-menu-item>
               <el-menu-item index="shop">商户列表</el-menu-item>
-              <el-menu-item index="">商品列表</el-menu-item>
+              <el-menu-item index="food">商品列表</el-menu-item>
               <el-menu-item index="">订单管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -104,7 +104,6 @@ export default {
           { title: this.$route.meta.parentTitle, path: '' },
           { title: this.$route.meta.title, path: this.$route.path.substr(1) })
       }
-      console.log(this.breadcrumbList)
     }
   },
   computed: {

@@ -3,7 +3,7 @@ import axios from 'axios'
 // 初始化通用配置
 const service = axios.create({
   // 基地址设置
-  baseURL: 'http://192.168.26.105:8082'
+  baseURL: process.env.VUE_APP_BASE_API
 })
 
 // 设置请求拦截器
